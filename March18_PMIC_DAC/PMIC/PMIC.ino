@@ -40,7 +40,7 @@ void setup()
   Serial.begin(115200);
 
   Wire.begin(21, 22);   // SDA, SCL
-  Wire.setClock(400000);
+  Wire.setClock(1000);
 
   delay(100);
 
@@ -54,7 +54,7 @@ void setup()
   //--------------------------------------
   // 2. Set BUCK1 = 1.0V
   //--------------------------------------
-  uint8_t bcode = 0x50;  // = 0x20
+  uint8_t bcode = 0x50;  
 
   writeReg(0x21F, bcode);  // B1VSET0
   writeReg(0x220, bcode);  // B1VSET1
@@ -67,7 +67,7 @@ void setup()
   //--------------------------------------
   // 4. Set LDO1 = 2.0V
   //--------------------------------------
-  uint8_t lcode = 0x90;   // ≈ 0x10
+  uint8_t lcode = 0x90;   
 
   writeReg(0x240, lcode);  // L1VSET
 
