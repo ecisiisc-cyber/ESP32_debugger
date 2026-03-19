@@ -1,5 +1,9 @@
 #include <Wire.h>
 
+// --- UART 1 Pins (ESP32-S3 Hardware Defaults) ---
+const int UART1_RX_PIN = 18; 
+const int UART1_TX_PIN = 17;
+
 #define DEV_ADDR 0x5B
 
 //--------------------------------------
@@ -37,14 +41,17 @@ void unlockVSET()
 //--------------------------------------
 void setup()
 {
-  Serial.begin(115200);
+  
+  // Initialize UART 1 for receiving commands (Baud rate: 9600)
+  Serial1.begin(115200, SERIAL_8N1, UART1_RX_PIN, UART1_TX_PIN);
+  Serial1.println("ESP32-S3 System Ready. ");
 
   Wire.begin(21, 22);   // SDA, SCL
-  Wire.setClock(1000);
+  Wire.setClock(100000);//100KHz
 
   delay(100);
 
-  Serial.println("MCP16701 Init");
+  Serial1.println("MCP16701 Init");
 
   //--------------------------------------
   // 1. Unlock VSET
@@ -69,19 +76,21 @@ void setup()
   //--------------------------------------
   uint8_t lcode = 0x90;   
 
-  writeReg(0x240, lcode);  // L1VSET
+  writeReg(0x25E, lcode);  // L1VSET0
+  writeReg(0x25F, lcode);  // L1VSET0
+
 
   //--------------------------------------
   // 5. Enable LDO1
   //--------------------------------------
-  writeReg(0x238, 0x31);   // L1CFG
+  writeReg(0x259, 0x31);   // L1CFG
 
   //--------------------------------------
   // 6. Wait for rails
   //--------------------------------------
   delay(2);
 
-  Serial.println("BUCK1 and LDO1 set to 1.0V and 2.0V respectively");
+  Serial1.println("BUCK1 and LDO1 set to 1.0V and 2.0V respectively");
 }
 
 void loop()
