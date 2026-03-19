@@ -1,6 +1,3 @@
-
-
-
 #include <SPI.h>
 
 // --- UART 1 Pins (ESP32-S3 Hardware Defaults) ---
