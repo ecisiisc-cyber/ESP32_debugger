@@ -31,21 +31,6 @@ void unlockVSET()
   delay(1);
 }
 
-//--------------------------------------
-// Convert voltage → BUCK code (12.5mV)
-//--------------------------------------
-uint8_t buckCode(float v)
-{
-  return (uint8_t)((v - 0.6) / 0.0125);
-}
-
-//--------------------------------------
-// Convert voltage → LDO code (25mV)
-//--------------------------------------
-uint8_t ldoCode(float v)
-{
-  return (uint8_t)((v - 0.6) / 0.025);
-}
 
 //--------------------------------------
 // Setup
@@ -69,7 +54,7 @@ void setup()
   //--------------------------------------
   // 2. Set BUCK1 = 1.0V
   //--------------------------------------
-  uint8_t bcode = buckCode(1.0);  // = 0x20
+  uint8_t bcode = 0x50;  // = 0x20
 
   writeReg(0x21F, bcode);  // B1VSET0
   writeReg(0x220, bcode);  // B1VSET1
@@ -80,9 +65,9 @@ void setup()
   writeReg(0x219, 0x31);   // CFG1 (ENABLE + fixed mode)
 
   //--------------------------------------
-  // 4. Set LDO1 = 1.0V
+  // 4. Set LDO1 = 2.0V
   //--------------------------------------
-  uint8_t lcode = ldoCode(1.0);   // ≈ 0x10
+  uint8_t lcode = 0x90;   // ≈ 0x10
 
   writeReg(0x240, lcode);  // L1VSET
 
@@ -96,7 +81,7 @@ void setup()
   //--------------------------------------
   delay(2);
 
-  Serial.println("BUCK1 and LDO1 set to 1.0V");
+  Serial.println("BUCK1 and LDO1 set to 1.0V and 2.0V respectively");
 }
 
 void loop()
