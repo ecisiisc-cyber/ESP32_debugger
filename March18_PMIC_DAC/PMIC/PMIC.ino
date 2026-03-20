@@ -11,7 +11,9 @@ const int UART1_TX_PIN = 17;
 //--------------------------------------
 void writeReg(uint16_t reg, uint8_t data)
 {
-  uint8_t opcode_h = ((0 << 5) | ((reg >> 8) & 0x03));
+  // uint8_t opcode_h = ((1 << 5) | ((reg >> 8) & 0x03)); previous
+
+  uint8_t opcode_h = ((1 << 5) | ((reg >> 8) & 0x03));
   uint8_t opcode_l = reg & 0xFF;
 
   Wire.beginTransmission(DEV_ADDR);
@@ -46,7 +48,7 @@ void setup()
   Serial1.begin(115200, SERIAL_8N1, UART1_RX_PIN, UART1_TX_PIN);
   Serial1.println("ESP32-S3 System Ready. ");
 
-  Wire.begin(21, 22);   // SDA, SCL
+  Wire.begin(8, 9);   // SDA, SCL
   Wire.setClock(100000);//100KHz
 
   delay(100);
@@ -57,6 +59,7 @@ void setup()
   // 1. Unlock VSET
   //--------------------------------------
   unlockVSET();
+Serial1.println("unlocked");
 
   //--------------------------------------
   // 2. Set BUCK1 = 1.0V
@@ -77,7 +80,7 @@ void setup()
   uint8_t lcode = 0x90;   
 
   writeReg(0x25E, lcode);  // L1VSET0
-  writeReg(0x25F, lcode);  // L1VSET0
+  writeReg(0x25F, lcode);  // L1VSET1
 
 
   //--------------------------------------
