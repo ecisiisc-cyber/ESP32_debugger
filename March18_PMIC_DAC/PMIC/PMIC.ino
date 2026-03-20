@@ -13,7 +13,7 @@ void writeReg(uint16_t reg, uint8_t data)
 {
   // uint8_t opcode_h = ((1 << 5) | ((reg >> 8) & 0x03)); previous
 
-  uint8_t opcode_h = ((1 << 5) | ((reg >> 8) & 0x03));
+  uint8_t opcode_h = ((1<< 2) | ((reg >> 8) & 0x03));
   uint8_t opcode_l = reg & 0xFF;
 
   Wire.beginTransmission(DEV_ADDR);
@@ -47,6 +47,7 @@ void setup()
   // Initialize UART 1 for receiving commands (Baud rate: 9600)
   Serial1.begin(115200, SERIAL_8N1, UART1_RX_PIN, UART1_TX_PIN);
   Serial1.println("ESP32-S3 System Ready. ");
+  Serial1.println("Test 2 ");
 
   Wire.begin(8, 9);   // SDA, SCL
   Wire.setClock(100000);//100KHz
