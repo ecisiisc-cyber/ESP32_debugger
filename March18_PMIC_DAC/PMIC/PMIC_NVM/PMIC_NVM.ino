@@ -101,7 +101,6 @@ void setup()
   writeReg(0x041, 0x80);  delay(10);
   writeReg(0x049, 0x80);  delay(10);
   writeReg(0x051, 0x80);  delay(10);
-
   Serial1.println("Locking NVM...");
   lockNVM();
 
